@@ -297,3 +297,7 @@ Oct 06, 2021 2:52:04 PM com.google.cloud.datastore.emulator.firestore.websocket.
 INFO: Websocket client disconnected
 Oct 06, 2021 5:34:10 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
 INFO: Connected to new websocket client
+Oct 06, 2021 5:42:42 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+*** shutting down gRPC server since JVM is shutting down
+*** server shut down

@@ -1,12 +1,11 @@
 const functions = require('firebase-functions');
-
 const { searchAmazon } = require('unofficial-amazon-search');
 
-exports.search = functions.https.onRequest(async (request, response) => {
-	let data = await searchAmazon('printer').catch((error) => {
+exports.search = functions.https.onCall(async (data, context) => {
+	let results = await searchAmazon(data.search).catch((error) => {
 		functions.logger.error(error);
 	});
-	functions.logger.info(data);
-	let url = `https://amazon.com${data.searchResults[0].productUrl}&tag=fast1020-20`;
-	response.send({ data: url });
+	functions.logger.info(results);
+	let url = results.searchResults[0].productUrl;
+	return `https://amazon.com${url}${url.endsWith('/') ? '?' : '&'}tag=fast1020-20`;
 });

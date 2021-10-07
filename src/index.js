@@ -9,7 +9,6 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 // eslint-disable-next-line
 import startFirebase from './firebase';
 
-import LatestSearches from './components/latest_searches';
 import FrontDescription from './components/front_description';
 
 function MainView(props) {
@@ -45,7 +44,6 @@ function MainView(props) {
 						</Button>
 						{loading && <LinearProgress />}
 					</Stack>
-					<LatestSearches />
 					<FrontDescription />
 				</Stack>
 			</Grid>

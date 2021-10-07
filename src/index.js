@@ -2,36 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import '@fontsource/roboto/400.css';
-import { Button, Grid, LinearProgress, Stack, TextField, Typography, Box } from '@mui/material';
+import { Button, Grid, LinearProgress, Stack, TextField, Typography } from '@mui/material';
 
 import { getFunctions, httpsCallable } from 'firebase/functions';
-import { getFirestore, collection, query, getDocs, orderBy, limit } from 'firebase/firestore';
+
+// eslint-disable-next-line
 import startFirebase from './firebase';
 
-startFirebase();
-const q = query(collection(getFirestore(), 'searches'), orderBy('timestamp', 'desc'), limit(3));
+import LatestSearches from './components/latest_searches';
+import FrontDescription from './components/front_description';
 
 function MainView(props) {
 	let [search, setSearch] = React.useState('');
 	let [loading, setLoading] = React.useState(false);
-	let [latest, setLatest] = React.useState(false);
-
-	React.useEffect(() => {
-		async function fetchQuery() {
-			const querySnapshot = await getDocs(q);
-			await setLatest(
-				querySnapshot.docs.map((doc, i) => (
-					<Box key={i}>
-						<hr />
-						<Typography variant="h6" textAlign="center">
-							{doc.data().search}
-						</Typography>
-					</Box>
-				))
-			);
-		}
-		fetchQuery();
-	}, []);
 
 	let searchAmazon = () => {
 		setLoading(true);
@@ -40,9 +23,7 @@ function MainView(props) {
 			functions,
 			'search'
 		)({ search: search }).then((result) => {
-			let url = result.data;
-			window.location.href = url;
-			setLoading(false);
+			window.location.href = result.data;
 		});
 	};
 
@@ -51,7 +32,9 @@ function MainView(props) {
 			<Grid container justifyContent="center" alignItems="center">
 				<Stack direction="column" spacing={3}>
 					<Stack direction="column" spacing={5}>
-						<Typography variant="h1">FastBuy</Typography>
+						<Typography variant="h1" textAlign="center">
+							FastBuy
+						</Typography>
 						<TextField
 							label="Search"
 							variant="outlined"
@@ -62,10 +45,8 @@ function MainView(props) {
 						</Button>
 						{loading && <LinearProgress />}
 					</Stack>
-					<Stack direction="column" spacing={2}>
-						<Typography variant="h3">Latest Searches</Typography>
-						{latest && latest}
-					</Stack>
+					<LatestSearches />
+					<FrontDescription />
 				</Stack>
 			</Grid>
 		</>
@@ -74,7 +55,7 @@ function MainView(props) {
 
 ReactDOM.render(
 	<React.StrictMode>
-		<div style={{ height: '75vh', display: 'flex' }}>
+		<div style={{ height: '100vh', display: 'flex' }}>
 			<MainView />
 		</div>
 	</React.StrictMode>,

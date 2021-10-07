@@ -12,8 +12,9 @@ const firebaseConfig = {
 	measurementId: 'G-BC2H25CD4X',
 };
 
+initializeApp(firebaseConfig);
+
 function startFirebase() {
-	initializeApp(firebaseConfig);
 	// const functions = getFunctions(app);
 	// const db = getFirestore();
 	// connectFunctionsEmulator(functions, 'localhost', 5001);
